@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# hibernate to disk
+
+brightness=`cat /sys/class/backlight/*/brightness | head -1`
+
+chvt 1
+#/etc/init.d/bluetooth stop || true
+rfkill block all
+#vbstate=/var/lib/vbetool.state
+#vbetool vbestate save > $vbstate
+sync
+echo 3 > /proc/sys/vm/drop_caches
+sync
+sleep 1
+
+s2disk
+#pm-hibernate
+#vbetool vbestate restore < $vbstate
+
+chvt 7
+
+echo $brightness > `echo /sys/class/backlight/*/brightness | head -1`
+
+su - garabik -c "DISPLAY=:0.0 exec /usr/bin/xrandr --auto"
+
+
