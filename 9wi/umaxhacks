@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# fix suspend & hibernate for Umax Visionbook 9wi pro
+
+# put this file into /lib/systemd/system-sleep/
+
+case $1 in
+  pre)
+    chvt 1
+    rfkill block all
+    [ x"$2" = xhibernate ] && ( echo 3 > /proc/sys/vm/drop_caches )
+    sync
+    sleep 1
+  ;;
+  post)
+    chvt 7
+    ;;
+esac
