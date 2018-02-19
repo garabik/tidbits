@@ -14,5 +14,10 @@ case $1 in
   ;;
   post)
     chvt 7
+    killall pulseaudio
+    rmmod snd_soc_sst_cht_bsw_rt5645
+    rmmod snd_soc_rt5645
+    modprobe snd_soc_rt5645
+    modprobe snd_soc_sst_cht_bsw_rt5645
     ;;
 esac
